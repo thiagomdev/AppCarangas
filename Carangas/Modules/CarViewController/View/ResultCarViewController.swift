@@ -63,7 +63,7 @@ final class ResultCarViewController: UIViewController {
 
 extension ResultCarViewController: ResultCarViewModelProtocol {
     func showDetailCars() {
-        let detailCars = AddCarViewController()
+        let detailCars = AddCarViewController(viewModel: .init())
         navigationController?.pushViewController(detailCars, animated: true)
     }
 }
@@ -86,7 +86,7 @@ extension ResultCarViewController: ViewConfiguration {
         viewModel.delegate = self
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
-        navigationItem.title = brandLabel.text ?? ""
+        navigationItem.title = "Marcas"
         view.backgroundColor = .systemBackground
     }
 }

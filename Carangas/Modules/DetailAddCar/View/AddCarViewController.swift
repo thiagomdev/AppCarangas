@@ -2,6 +2,8 @@ import UIKit
 
 final class AddCarViewController: UIViewController {
     
+    private let viewModel: AddCarViewModel
+
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -62,14 +64,37 @@ final class AddCarViewController: UIViewController {
         return activity
     }()
 
+    init(viewModel: AddCarViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
     
+    var car: CarModel!
+    
     @objc
     private func didRegisterCar() {
-        activityIndicator.startAnimating()
+        if car == nil {
+            car = CarModel()
+        }
+
+        car.name = carNameTextField.text ?? ""
+        car.brand = brandTextField.text ?? ""
+        guard let price = Double(priceTextField.text ?? "") else { return }
+        car.price = price
+        car.gasType = segmentControl.selectedSegmentIndex
+        
+        viewModel.save(cars: car)
+        navigationController?.popViewController(animated: true)
     }
 }
 

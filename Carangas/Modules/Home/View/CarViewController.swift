@@ -12,7 +12,7 @@ final class CarViewController: UIViewController {
         table.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         table.rowHeight = UITableView.automaticDimension
         table.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
-        table.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
+        table.register(CarTableViewCell.self, forCellReuseIdentifier: CarTableViewCell.identifier)
         return table
     }()
     
@@ -29,6 +29,25 @@ final class CarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        reloadData()
+        didLoadCars(cars: viewModel.cars)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
+    }
+    
+    private func didLoadCars(cars: String) {
+        viewModel.fetchData(cars: cars)
+    }
+    
+    private func reloadData() {
+        viewModel.reloadData = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     @objc
@@ -39,23 +58,30 @@ final class CarViewController: UIViewController {
 
 extension CarViewController: CarViewModelProtocol {
     func addCars() {
-        let addCarsView = AddCarViewController()
+        let addCarsView = AddCarViewController(viewModel: .init())
         navigationController?.pushViewController(addCarsView, animated: true)
     }
 }
 
 extension CarViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let resultCar = ResultCarViewController(viewModel: .init())
-        navigationController?.pushViewController(resultCar, animated: true)
+        tableView.reloadRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return viewModel.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: CarTableViewCell.identifier,
+            for: indexPath) as? CarTableViewCell else {
+            return UITableViewCell()
+        }
+        
         cell.selectionStyle = .none
+        cell.setup(for: .init(carModel: viewModel.model[indexPath.row]))
         return cell
     }
 }
