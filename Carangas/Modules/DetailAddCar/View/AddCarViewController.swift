@@ -54,11 +54,11 @@ final class AddCarViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView()
         activity.style = .large
-        activity.tintColor = .systemTeal
         activity.clearsContextBeforeDrawing = true
         activity.autoresizesSubviews = true
         activity.contentMode = .scaleAspectFill
         activity.isUserInteractionEnabled = true
+        activity.color = .systemTeal
         return activity
     }()
 

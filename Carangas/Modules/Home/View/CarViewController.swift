@@ -8,6 +8,7 @@ final class CarViewController: UIViewController {
         let table = UITableView()
         table.backgroundColor = .systemBackground
         table.dataSource = self
+        table.delegate = self
         table.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         table.rowHeight = UITableView.automaticDimension
         table.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
@@ -43,12 +44,18 @@ extension CarViewController: CarViewModelProtocol {
     }
 }
 
-extension CarViewController: UITableViewDataSource {
+extension CarViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let resultCar = ResultCarViewController(viewModel: .init())
+        navigationController?.pushViewController(resultCar, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
+        cell.selectionStyle = .none
         return cell
     }
 }
