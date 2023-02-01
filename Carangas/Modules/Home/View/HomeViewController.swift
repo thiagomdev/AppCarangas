@@ -3,12 +3,13 @@ import UIKit
 final class HomeViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
+        let table = UITableView()
         table.backgroundColor = .systemBackground
         table.dataSource = self
         table.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         table.rowHeight = UITableView.automaticDimension
-        table.estimatedRowHeight = 120
+        table.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
+        table.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         return table
     }()
     
@@ -23,7 +24,8 @@ extension HomeViewController: UITableViewDataSource {
         return 4
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
+        return cell
     }
 }
 
