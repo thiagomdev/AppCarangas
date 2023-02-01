@@ -18,6 +18,9 @@
 		AA2B0991298AB42100C9388F /* AddCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B0990298AB42100C9388F /* AddCarViewController.swift */; };
 		AA2B0993298AB4B600C9388F /* AddCarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B0992298AB4B600C9388F /* AddCarViewModel.swift */; };
 		AA2B0997298AB51D00C9388F /* CarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B0996298AB51D00C9388F /* CarViewModel.swift */; };
+		AA2B099A298AC04600C9388F /* ResultCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B0999298AC04600C9388F /* ResultCarViewController.swift */; };
+		AA2B099E298AD2B300C9388F /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B099D298AD2B300C9388F /* UIView+Extension.swift */; };
+		AA2B09A0298AD51200C9388F /* ResultCarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B099F298AD51200C9388F /* ResultCarViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		AA2B0990298AB42100C9388F /* AddCarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCarViewController.swift; sourceTree = "<group>"; };
 		AA2B0992298AB4B600C9388F /* AddCarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCarViewModel.swift; sourceTree = "<group>"; };
 		AA2B0996298AB51D00C9388F /* CarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarViewModel.swift; sourceTree = "<group>"; };
+		AA2B0999298AC04600C9388F /* ResultCarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCarViewController.swift; sourceTree = "<group>"; };
+		AA2B099D298AD2B300C9388F /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		AA2B099F298AD51200C9388F /* ResultCarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCarViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,7 @@
 			children = (
 				AA0A7567298AA747005D421E /* Home */,
 				AA2B098F298AB3DD00C9388F /* DetailAddCar */,
+				AA2B0998298AC00500C9388F /* CarViewController */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -117,6 +124,7 @@
 			children = (
 				AA2B0986298AA9ED00C9388F /* NSLayoutConstraints+Extension.swift */,
 				AA2B098D298AADE500C9388F /* StackView+Extension.swift */,
+				AA2B099D298AD2B300C9388F /* UIView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -166,6 +174,31 @@
 			isa = PBXGroup;
 			children = (
 				AA2B0990298AB42100C9388F /* AddCarViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AA2B0998298AC00500C9388F /* CarViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA2B099C298AC05C00C9388F /* View */,
+				AA2B099B298AC05900C9388F /* ViewModel */,
+			);
+			path = CarViewController;
+			sourceTree = "<group>";
+		};
+		AA2B099B298AC05900C9388F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AA2B099F298AD51200C9388F /* ResultCarViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AA2B099C298AC05C00C9388F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AA2B0999298AC04600C9388F /* ResultCarViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -240,12 +273,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2B099E298AD2B300C9388F /* UIView+Extension.swift in Sources */,
 				AA2B0991298AB42100C9388F /* AddCarViewController.swift in Sources */,
 				AA2B0984298AA9C100C9388F /* ViewConfiguration.swift in Sources */,
 				AA2B098C298AACDB00C9388F /* HomeTableViewCell.swift in Sources */,
 				AA2B0993298AB4B600C9388F /* AddCarViewModel.swift in Sources */,
 				AA2B0987298AA9ED00C9388F /* NSLayoutConstraints+Extension.swift in Sources */,
+				AA2B099A298AC04600C9388F /* ResultCarViewController.swift in Sources */,
 				AA0A7556298AA6AE005D421E /* CarViewController.swift in Sources */,
+				AA2B09A0298AD51200C9388F /* ResultCarViewModel.swift in Sources */,
 				AA0A7552298AA6AE005D421E /* AppDelegate.swift in Sources */,
 				AA2B0997298AB51D00C9388F /* CarViewModel.swift in Sources */,
 				AA2B098E298AADE500C9388F /* StackView+Extension.swift in Sources */,
