@@ -2,7 +2,7 @@ import UIKit
 
 final class ResultCarViewController: UIViewController {
     
-    private let viewModel: ResultCarViewModel
+    var viewModel: ResultCarViewModel
     
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -55,9 +55,22 @@ final class ResultCarViewController: UIViewController {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupCars()
+    }
+    
+    private func setupCars() {
+        brandLabel.text = viewModel.brandName()
+        gasTypeLabel.text = viewModel.gasType()
+        priceLabel.text = viewModel.price()
+    }
+    
     @objc
     private func editButtonTapped() {
         viewModel.showCars()
+        
+        viewModel.update(cars: viewModel.model)
     }
 }
 
@@ -76,9 +89,9 @@ extension ResultCarViewController: ViewConfiguration {
     
     func setupConstraints() {
         NSLayoutConstraint.activateConstraints([
-            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 3),
-            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 3),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 3)
+            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1),
+            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2.4),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2.4)
         ])
     }
     
@@ -86,7 +99,7 @@ extension ResultCarViewController: ViewConfiguration {
         viewModel.delegate = self
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
-        navigationItem.title = "Marcas"
+        navigationItem.title = viewModel.model.name
         view.backgroundColor = .systemBackground
     }
 }

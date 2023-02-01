@@ -24,7 +24,7 @@
 		AA2B09A3298ADBA300C9388F /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B09A2298ADBA300C9388F /* HttpMethod.swift */; };
 		AA2B09A5298ADBE000C9388F /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B09A4298ADBE000C9388F /* Networking.swift */; };
 		AA2B09A7298ADC1F00C9388F /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B09A6298ADC1F00C9388F /* RequestManager.swift */; };
-		AA2B09AA298ADC6C00C9388F /* CarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B09A9298ADC6C00C9388F /* CarService.swift */; };
+		AA2B09AA298ADC6C00C9388F /* ServiceCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B09A9298ADC6C00C9388F /* ServiceCar.swift */; };
 		AA2B09AD298ADD2200C9388F /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B09AC298ADD2200C9388F /* CarModel.swift */; };
 		AA2B09AF298AE03E00C9388F /* CarCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B09AE298AE03E00C9388F /* CarCellViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -49,7 +49,7 @@
 		AA2B09A2298ADBA300C9388F /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		AA2B09A4298ADBE000C9388F /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		AA2B09A6298ADC1F00C9388F /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
-		AA2B09A9298ADC6C00C9388F /* CarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarService.swift; sourceTree = "<group>"; };
+		AA2B09A9298ADC6C00C9388F /* ServiceCar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceCar.swift; sourceTree = "<group>"; };
 		AA2B09AC298ADD2200C9388F /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 		AA2B09AE298AE03E00C9388F /* CarCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,7 +208,7 @@
 		AA2B09A8298ADC5E00C9388F /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				AA2B09A9298ADC6C00C9388F /* CarService.swift */,
+				AA2B09A9298ADC6C00C9388F /* ServiceCar.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -294,7 +294,7 @@
 				AA2B09A7298ADC1F00C9388F /* RequestManager.swift in Sources */,
 				AA2B099E298AD2B300C9388F /* UIView+Extension.swift in Sources */,
 				AA2B09AD298ADD2200C9388F /* CarModel.swift in Sources */,
-				AA2B09AA298ADC6C00C9388F /* CarService.swift in Sources */,
+				AA2B09AA298ADC6C00C9388F /* ServiceCar.swift in Sources */,
 				AA2B0991298AB42100C9388F /* AddCarViewController.swift in Sources */,
 				AA2B09A3298ADBA300C9388F /* HttpMethod.swift in Sources */,
 				AA2B0984298AA9C100C9388F /* ViewConfiguration.swift in Sources */,

@@ -79,22 +79,27 @@ final class AddCarViewController: UIViewController {
         setup()
     }
     
-    var car: CarModel!
-    
     @objc
     private func didRegisterCar() {
-        if car == nil {
-            car = CarModel()
+        activityIndicator.startAnimating()
+        viewModel.carModel.name = carNameTextField.text ?? ""
+        viewModel.carModel.brand = brandTextField.text ?? ""
+
+        guard let price = Double(priceTextField.text ?? "") else { return }
+
+        viewModel.carModel.price = price
+        viewModel.carModel.gasType = segmentControl.selectedSegmentIndex
+
+        if viewModel.carModel._id == nil {
+            activityIndicator.startAnimating()
+            viewModel.save(cars: viewModel.carModel)
+        } else {
+            viewModel.update(cars: viewModel.carModel)
         }
 
-        car.name = carNameTextField.text ?? ""
-        car.brand = brandTextField.text ?? ""
-        guard let price = Double(priceTextField.text ?? "") else { return }
-        car.price = price
-        car.gasType = segmentControl.selectedSegmentIndex
-        
-        viewModel.save(cars: car)
-        navigationController?.popViewController(animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

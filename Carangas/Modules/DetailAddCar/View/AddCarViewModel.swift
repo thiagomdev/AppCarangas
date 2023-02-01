@@ -5,6 +5,7 @@ final class AddCarViewModel {
     private let service: CarServicingProtocol
     var cars: String = ""
     var showError: ((Error) -> Void)?
+    var reloadData: (() -> Void)?
     
     init(carModel: CarModel = .init(), service: CarServicingProtocol = ServiceCar()) {
         self.carModel = carModel
@@ -27,8 +28,23 @@ final class AddCarViewModel {
         return carModel.price
     }
     
+    func getCarID() -> String {
+        return carModel._id ?? ""
+    }
+    
     func save(cars: CarModel) {
         service.post(cars: cars) { [weak self] result in
+            switch result {
+            case let .success(cars):
+                self?.carModel = cars
+            case let .failure(error):
+                self?.showError?(error)
+            }
+        }
+    }
+    
+    func update(cars: CarModel) {
+        service.update(cars: cars) { [weak self] result in
             switch result {
             case let .success(cars):
                 self?.carModel = cars
