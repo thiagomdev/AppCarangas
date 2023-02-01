@@ -1,8 +1,8 @@
 import UIKit
 
-final class HomeTableViewCell: UITableViewCell {
+final class CarTableViewCell: UITableViewCell {
     
-    static let identifier: String = HomeTableViewCell.self.description()
+    static let identifier: String = CarTableViewCell.self.description()
     
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -36,9 +36,14 @@ final class HomeTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setup(for car: CarCellViewModel) {
+        titleLabel.text = car.carName()
+        detailLabel.text = car.brandCar()
+    }
 }
 
-extension HomeTableViewCell: ViewConfiguration {
+extension CarTableViewCell: ViewConfiguration {
     func buildHierarchyView() {
         stackView.add(subviews: titleLabel, detailLabel)
         addSubview(stackView)
