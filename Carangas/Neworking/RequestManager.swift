@@ -6,6 +6,6 @@ protocol NetworkingProtocol {
 
 final class Networking: NetworkingProtocol {
     func make<T>(request: Request, responseType: T.Type, completion: @escaping (Result<T, Error>) -> Void) -> RequestTasking where T : Decodable {
-        Task<T>(request: request, completion: completion)
+        Task<T>(request: request, completion: completion, responseType: responseType)
     }
 }

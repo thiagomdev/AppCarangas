@@ -77,29 +77,43 @@ final class AddCarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        didLoadInformations()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        didLoadInformations()
     }
     
     @objc
     private func didRegisterCar() {
         activityIndicator.startAnimating()
-        viewModel.carModel.name = carNameTextField.text ?? ""
-        viewModel.carModel.brand = brandTextField.text ?? ""
+        
+        viewModel.setName(carNameTextField.text ?? "")
+        viewModel.setBrandName(brandTextField.text ?? "")
+        viewModel.setPrice(priceTextField.text ?? "")
+        viewModel.setGastype(segmentControl.selectedSegmentIndex)
 
-        guard let price = Double(priceTextField.text ?? "") else { return }
-
-        viewModel.carModel.price = price
-        viewModel.carModel.gasType = segmentControl.selectedSegmentIndex
-
-        if viewModel.carModel._id == nil {
-            activityIndicator.startAnimating()
-            viewModel.save(cars: viewModel.carModel)
-        } else {
-            viewModel.update(cars: viewModel.carModel)
+        viewModel.save()
+        
+        viewModel.reloadData = { [weak self] in
+            self?.activityIndicator.stopAnimating()
+            self?.didLoadInformations()
+            self?.navigationController?.popViewController(animated: true)
         }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.navigationController?.popViewController(animated: true)
+        
+        viewModel.showError = { error in
+            self.activityIndicator.stopAnimating()
+            let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
         }
+    }
+    
+    private func didLoadInformations() {
+        carNameTextField.text = viewModel.carName()
+        brandTextField.text = viewModel.brandCar()
+        priceTextField.text = "\(viewModel.priceCar())"
     }
 }
 

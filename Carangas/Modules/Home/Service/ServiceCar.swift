@@ -1,13 +1,13 @@
 import Foundation
 
 protocol CarServicingProtocol {
-    func request(cars: String, completion: @escaping (Result<[CarModel]  , Error>) -> Void)
+    func request(completion: @escaping (Result<[CarModel]  , Error>) -> Void)
     func post(cars: CarModel, completion: @escaping (Result<CarModel, Error>) -> Void)
     func update(cars: CarModel, completion: @escaping (Result<CarModel, Error>) -> Void)
 }
 
 enum CarService: Request {
-    case cars(String)
+    case cars
     
     var endpoint: String {
         return "/cars"
@@ -34,11 +34,11 @@ enum SaveCar: Request {
         switch self {
         case let .cars(cars):
             guard let json = try? JSONEncoder().encode(cars) else { return nil }
-            return prepareBody(with: json)
+            return json
         }
     }
     
-    var headers: [String : String]? { nil }
+    var headers: [String : String]? { ["Content-Type":"application/json"] }
     var parameters: [String : String]? { nil }
 }
 
@@ -74,8 +74,8 @@ final class ServiceCar: CarServicingProtocol {
         self.networking = networking
     }
     
-    func request(cars: String, completion: @escaping (Result<[CarModel], Error>) -> Void) {
-        task = networking.make(request: CarService.cars(cars), responseType: [CarModel].self, completion: { [weak self] result in
+    func request(completion: @escaping (Result<[CarModel], Error>) -> Void) {
+        task = networking.make(request: CarService.cars, responseType: [CarModel].self, completion: { [weak self] result in
             guard let _ = self else { return }
             switch result {
             case let .success(model):
@@ -88,11 +88,11 @@ final class ServiceCar: CarServicingProtocol {
     }
     
     func post(cars: CarModel, completion: @escaping (Result<CarModel, Error>) -> Void) {
-        task = networking.make(request: SaveCar.cars(cars), responseType: CarModel.self, completion: { [weak self] result in
+        task = networking.make(request: SaveCar.cars(cars), responseType: EmptyResponse.self, completion: { [weak self] result in
             guard let _ = self else { return }
             switch result {
-            case let .success(model):
-                completion(.success(model))
+            case .success:
+                completion(.success(cars))
             case let .failure(error):
                 completion(.failure(error))
             }

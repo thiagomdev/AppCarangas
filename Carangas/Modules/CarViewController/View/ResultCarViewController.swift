@@ -2,7 +2,7 @@ import UIKit
 
 final class ResultCarViewController: UIViewController {
     
-    var viewModel: ResultCarViewModel
+    private let viewModel: ResultCarViewModel
     
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -69,14 +69,13 @@ final class ResultCarViewController: UIViewController {
     @objc
     private func editButtonTapped() {
         viewModel.showCars()
-        
-        viewModel.update(cars: viewModel.model)
     }
 }
 
 extension ResultCarViewController: ResultCarViewModelProtocol {
     func showDetailCars() {
-        let detailCars = AddCarViewController(viewModel: .init())
+        let viewModel = AddCarViewModel(carModel: viewModel.model)
+        let detailCars = AddCarViewController(viewModel: viewModel)
         navigationController?.pushViewController(detailCars, animated: true)
     }
 }
