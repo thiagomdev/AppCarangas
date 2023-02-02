@@ -25,8 +25,8 @@ final class CarViewModel {
         delegate?.addCars()
     }
     
-    func fetchData(cars: String) {
-        service.request(cars: cars) { [weak self] result in
+    func fetchData() {
+        service.request { [weak self] result in
             switch result {
             case let .success(cars):
                 self?.model = cars

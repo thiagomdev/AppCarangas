@@ -33,14 +33,10 @@ final class CarViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        didLoadCars(cars: viewModel.cars)
+        viewModel.fetchData()
         reloadData()
     }
-    
-    private func didLoadCars(cars: String) {
-        viewModel.fetchData(cars: cars)
-    }
-    
+
     private func reloadData() {
         viewModel.reloadData = { [weak self] in
             DispatchQueue.main.async {
@@ -64,8 +60,8 @@ extension CarViewController: CarViewModelProtocol {
 
 extension CarViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let addCarsView = ResultCarViewController(viewModel: .init())
-        addCarsView.viewModel.model = viewModel.model[indexPath.row]
+        let viewModel = ResultCarViewModel(model: viewModel.model[indexPath.row])
+        let addCarsView = ResultCarViewController(viewModel: viewModel)
         navigationController?.pushViewController(addCarsView, animated: true)
     }
     

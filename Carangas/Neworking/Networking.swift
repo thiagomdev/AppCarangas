@@ -19,7 +19,7 @@ public func prepareBody<T: Encodable>(with payload: T, strategy: JSONEncoder.Key
     let jsonEncoder = JSONEncoder()
     jsonEncoder.outputFormatting = .prettyPrinted
     jsonEncoder.keyEncodingStrategy = strategy
-
+    
     do {
         return try jsonEncoder.encode(payload)
     } catch {
@@ -59,15 +59,27 @@ extension Request {
     }
 }
 
+enum NetworkError: Error {
+    case responseError(Data?, Int)
+}
+
+struct EmptyResponse: Decodable {
+    init() {
+        
+    }
+}
+
 final class Task<T: Decodable>: RequestTasking {
     let request: Request
     
     private let completion: ((Result<T, Error>) -> Void)?
     private var task: URLSessionDataTask?
+    private let responseType: T.Type
     
-    init(request: Request, completion: ((Result<T, Error>) -> Void)?) {
+    init(request: Request, completion: ((Result<T, Error>) -> Void)?, responseType: T.Type) {
         self.request = request
         self.completion = completion
+        self.responseType = responseType
     }
     
     func resume() {
@@ -75,22 +87,48 @@ final class Task<T: Decodable>: RequestTasking {
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = self.request.headers
+        print("DEBUG: Headers -> \(self.request.headers ?? [:])")
+        
         request.httpMethod = self.request.method.rawValue
+        print("DEBUG: Method -> \(self.request.method.rawValue)")
+        
         request.httpBody = self.request.body
+        print("DEBUG: Body -> \(self.request.body ?? Data())")
         
         task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, response, error in
             
+            if let data = data {
+                let text = String(data: data, encoding: .utf8) ?? ""
+                print("DEBUG: Text -> \(text)")
+                if let json = try? JSONSerialization.jsonObject(with: data),
+                   let printData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted),
+                   let text = String(data: printData, encoding: .utf8)  {
+                    print("DEBUG: Text -> \(text)")
+                }
+            }
+            
+            if let error = error {
+                self?.completion?(.failure(error))
+                return
+            }
+            
             guard let httpResponse = response as? HTTPURLResponse else { return }
+            print("DEBUD: Status code -> \(httpResponse.statusCode)")
             
             if (200..<300).contains(httpResponse.statusCode), let data = data {
-                do {
-                    
-                    let decoded = try JSONDecoder().decode(T.self, from: data)
+                if self?.responseType is EmptyResponse.Type, let decoded = EmptyResponse() as? T {
                     self?.completion?(.success(decoded))
-                    
-                } catch let error {
-                    self?.completion?(.failure(error))
+                } else {
+                    do {
+                        let decoded = try JSONDecoder().decode(T.self, from: data)
+                        self?.completion?(.success(decoded))
+                        
+                    } catch let error {
+                        self?.completion?(.failure(error))
+                    }
                 }
+            } else {
+                self?.completion?(.failure(NetworkError.responseError(data, httpResponse.statusCode)))
             }
         })
         
