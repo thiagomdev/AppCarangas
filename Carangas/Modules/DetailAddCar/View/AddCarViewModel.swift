@@ -3,7 +3,8 @@ import Foundation
 final class AddCarViewModel {
     private var carModel: CarModel
     private let service: CarServicingProtocol
-    var cars: String = ""
+//    var cars: String = ""
+    var back: (() -> Void)?
     var showError: ((Error) -> Void)?
     var reloadData: (() -> Void)?
     
@@ -47,6 +48,10 @@ final class AddCarViewModel {
     func setPrice(_ price: String) {
         guard let price = Double(price) else { return }
         carModel.price = price
+    }
+    
+    func goBack() {
+        back?()
     }
     
     func save(cars: CarModel) {

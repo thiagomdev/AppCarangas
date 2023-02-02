@@ -9,7 +9,7 @@ final class CarViewModel {
     weak var delegate: CarViewModelProtocol?
     
     private let service: CarServicingProtocol
-    var model: [CarModel]
+    private var model: [CarModel]
     
     var count: Int { model.count }
     var cars: String = ""
@@ -19,6 +19,10 @@ final class CarViewModel {
     init(model: [CarModel] = [], service: CarServicingProtocol = ServiceCar()) {
         self.model = model
         self.service = service
+    }
+    
+    func getIndexPath(_ index: IndexPath) -> CarModel {
+        model[index.row]
     }
     
     func didAddCars() {
@@ -35,5 +39,9 @@ final class CarViewModel {
                 self?.showError?(error)
             }
         }
+    }
+
+    func delete(at index: IndexPath) {
+        model.remove(at: index.row)
     }
 }

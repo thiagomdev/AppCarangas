@@ -99,6 +99,6 @@ extension ResultCarViewController: ViewConfiguration {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
         navigationItem.title = viewModel.model.name
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .systemBackground
     }
 }

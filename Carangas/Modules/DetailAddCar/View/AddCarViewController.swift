@@ -80,6 +80,11 @@ final class AddCarViewController: UIViewController {
         didLoadInformations()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        didLoadInformations()
+    }
+    
     @objc
     private func didRegisterCar() {
         activityIndicator.startAnimating()
@@ -93,6 +98,7 @@ final class AddCarViewController: UIViewController {
         
         viewModel.reloadData = { [weak self] in
             self?.activityIndicator.stopAnimating()
+            self?.didLoadInformations()
             self?.navigationController?.popViewController(animated: true)
         }
         

@@ -8,6 +8,7 @@ final class ResultCarViewModel {
     var model: CarModel
     private let service = ServiceCar()
     var showError: ((Error) -> Void)?
+    var reloadData: (() -> Void)?
     
     weak var delegate: ResultCarViewModelProtocol?
     
@@ -33,12 +34,21 @@ final class ResultCarViewModel {
     
     func update(cars: CarModel) {
         service.update(cars: cars) { [weak self] result in
-            switch result {
-            case let .success(cars):
-                self?.model = cars
-            case let .failure(error):
-                self?.showError?(error)
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(cars):
+                    self?.model = cars
+//                    self?.reloadData?()
+                case let .failure(error):
+                    self?.showError?(error)
+                }
             }
+        }
+    }
+    
+    func updatedCar() {
+        if model._id == nil {
+            update(cars: model)
         }
     }
 }
