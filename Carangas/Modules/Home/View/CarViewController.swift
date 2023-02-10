@@ -36,11 +36,6 @@ final class CarViewController: UIViewController {
         viewModel.fetchData()
         reloadData()
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        reloadData()
-    }
 
     private func reloadData() {
         viewModel.reloadData = { [weak self] in
@@ -65,9 +60,7 @@ extension CarViewController: CarViewModelProtocol {
 
 extension CarViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let viewModel = ResultCarViewModel(model: viewModel.getIndexPath(indexPath))
-        
         let addCarsView = ResultCarViewController(viewModel: viewModel)
         navigationController?.pushViewController(addCarsView, animated: true)
     }
@@ -93,8 +86,13 @@ extension CarViewController: UITableViewDataSource, UITableViewDelegate {
             viewModel.delete(at: indexPath)
             DispatchQueue.main.async {
                 self.tableView.deleteRows(at: [indexPath], with: .bottom)
+                self.reloadData()
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }
 

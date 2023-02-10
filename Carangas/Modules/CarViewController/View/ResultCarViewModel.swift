@@ -12,7 +12,7 @@ final class ResultCarViewModel {
     
     weak var delegate: ResultCarViewModelProtocol?
     
-    init(model: CarModel = .init(brand: "", gasType: 0, name: "", price: 0)) {
+    init(model: CarModel) {
         self.model = model
     }
     
@@ -38,7 +38,7 @@ final class ResultCarViewModel {
                 switch result {
                 case let .success(cars):
                     self?.model = cars
-//                    self?.reloadData?()
+                    self?.reloadData?()
                 case let .failure(error):
                     self?.showError?(error)
                 }
